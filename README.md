@@ -18,28 +18,38 @@ UnstructuredURLLoader → Extracts text from URLs
 ⚙️ How It Works
 
 Enter URLs
+
 User provides up to 3 news article URLs via the sidebar.
 
 Data Loading
+
 The tool fetches article content using UnstructuredURLLoader.
 
 Text Splitting
+
 Articles are split into smaller chunks using RecursiveCharacterTextSplitter to make them embedding-friendly.
 
 Embedding Generation
+
 Each chunk is converted into vector embeddings using GoogleGenerativeAIEmbeddings.
 
 Vector Store (FAISS)
+
 Embeddings are stored in a FAISS index (vector_indexx directory).
 
 Question Answering
 
 When a user asks a question:
+
 The tool loads the FAISS index.
+
 Finds the most relevant chunks (vector similarity search).
+
 Uses RetrievalQAWithSourcesChain with Gemini to generate an answer with sources.
 
 🖼️ Workflow Diagram
+
+
 URLs → Loader → Text Splitter → Embeddings → FAISS Index → Retriever → Gemini LLM → Answer + Sources
 
 🚀 Getting Started
@@ -61,9 +71,13 @@ streamlit run app.py
 🖥️ Usage
 
 Enter up to 3 news article URLs in the sidebar.
+
 Click Process URLs to fetch, split, and store embeddings.
+
 Type a question in the input box.
+
 Get answers with references to sources.
+
 
 📂 Project Structure
 📦 news-research-tool
@@ -82,7 +96,9 @@ Question:
 "What are the main economic impacts mentioned in these articles?"
 
 Output:
+
 Answer:
+
 The articles highlight rising inflation and unemployment as key economic impacts...  
 
 Sources:
