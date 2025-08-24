@@ -57,9 +57,7 @@ if process_url_cliked:
 
     #save the Faiss index to a file
     vectorindex.save_local(index_dir)
-    # vector_index=FAISS.load_local("vector_indexx",embeddings,allow_dangerous_deserialization=True)
-    # with open(file_path,"wb") as f:
-    #     pickle.dump(vectorindex,f)
+    
 query=st.text_input("Question: ")
 if query:
     if os.path.exists(index_dir):
@@ -68,7 +66,7 @@ if query:
         chain=RetrievalQAWithSourcesChain.from_llm(llm=llm,retriever=vectorstore.as_retriever())
         result=chain({"question": query}, return_only_outputs=True)
         st.header("Answer")
-        #{"answer":"","source":[]}
+        
         st.write(result["answer"])
 
         # Display sources of available
@@ -78,5 +76,6 @@ if query:
             sources_list=sources.split("\n") # split the source by newline
             for src in sources_list:
                 st.write(src)
+
 
 
