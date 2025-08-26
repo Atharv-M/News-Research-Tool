@@ -1,113 +1,122 @@
-📰 News Research Tool 🔎
-📌 Overview
+# News-Research-Tool
 
-The News Research Tool is an AI-powered application that allows users to input news article URLs, process the content, and ask natural language questions about the collected information. The tool converts article text into vector embeddings, stores them in a FAISS vector database, and uses Google Gemini (via LangChain) to retrieve the most relevant answers along with their sources.
+**AI-powered news summarization and Q&A assistant**
 
-This project is built using:
+The **News-Research-Tool** lets users submit news article URLs, processes them into vector embeddings via Google Gemini, and enables intelligent, natural-language querying with reference-backed answers.
 
-Streamlit → Interactive UI
+---
 
-LangChain → LLM orchestration
+##  Features
 
-Google Gemini API → Language model & embeddings
+-  **Streamlit-powered UI** – Enter up to 3 news articles via a sidebar for a clean interface.
+-  **Content ingestion** – Fetches URL text with `UnstructuredURLLoader`.
+-  **Smart text splitting** – Uses `RecursiveCharacterTextSplitter` to prepare text for embeddings.
+-  **Embeddings** – Converts text chunks to vector representations using `GoogleGenerativeAIEmbeddings`.
+-  **Efficient vector search** – Stores embeddings in a FAISS index (`vector_indexx`) for fast retrieval.
+-  **Retrieval-based Q&A** – Employs `RetrievalQAWithSourcesChain` with Google Gemini to answer user queries, including source references.
 
-FAISS → Vector database for fast retrieval
+---
 
-UnstructuredURLLoader → Extracts text from URLs
+##  ‍ How It Works
 
-⚙️ How It Works
+**Workflow:**
 
-Enter URLs
-
-User provides up to 3 news article URLs via the sidebar.
-
-Data Loading
-
-The tool fetches article content using UnstructuredURLLoader.
-
-Text Splitting
-
-Articles are split into smaller chunks using RecursiveCharacterTextSplitter to make them embedding-friendly.
-
-Embedding Generation
-
-Each chunk is converted into vector embeddings using GoogleGenerativeAIEmbeddings.
-
-Vector Store (FAISS)
-
-Embeddings are stored in a FAISS index (vector_indexx directory).
-
-Question Answering
-
-When a user asks a question:
-
-The tool loads the FAISS index.
-
-Finds the most relevant chunks (vector similarity search).
-
-Uses RetrievalQAWithSourcesChain with Gemini to generate an answer with sources.
-
-🖼️ Workflow Diagram
-
+```
 
 URLs → Loader → Text Splitter → Embeddings → FAISS Index → Retriever → Gemini LLM → Answer + Sources
 
-🚀 Getting Started
-1. Clone Repository
-git clone https://github.com/yourusername/news-research-tool.git
-cd news-research-tool
+````
 
-2. Install Dependencies
+1. **User input** – Paste up to three article URLs into the sidebar.
+2. **Processing** – The app fetches, splits, and embeds article content.
+3. **Querying** – User poses a natural-language question.
+4. **Response** – The app retrieves relevant content from FAISS and uses Gemini to answer, with clear sources.
+
+---
+
+##  Setup & Usage
+
+```bash
+git clone https://github.com/Atharv-M/News-Research-Tool.git
+cd News-Research-Tool
 pip install -r requirements.txt
+````
 
-3. Setup Environment Variables
+1. Create a `.env` file in the project root:
 
-Create a .env file in the project root and add your Google API Key:
-GOOGLE_API_KEY=your_google_api_key_here
+   ```dotenv
+   GOOGLE_API_KEY=your_google_api_key_here
+   ```
 
-4. Run the App
-streamlit run app.py
+2. Run the app:
 
-🖥️ Usage
+   ```bash
+   streamlit run app.py
+   ```
 
-Enter up to 3 news article URLs in the sidebar.
+3. In the Streamlit interface:
 
-Click Process URLs to fetch, split, and store embeddings.
+   * Enter up to 3 news article URLs in the sidebar.
+   * Click **Process URLs** to fetch and index data.
+   * Ask your question in the input box and get answers with clear sources.
 
-Type a question in the input box.
+---
 
-Get answers with references to sources.
+## Project Structure
+
+```
+news-research-tool/
+├── app.py                    # Main Streamlit application
+├── requirements.txt          # Python dependencies
+├── .env                      # (Not committed) Environment variables
+└── vector_indexx/            # Generated FAISS index directory
+```
+
+---
+
+## Example Session
+
+* **Input URLs:**
+
+  * `https://example.com/news/article1`
+  * `https://example.com/news/article2`
+* **Question:** “What are the main economic impacts mentioned?”
+* **Output:**
+
+  ```
+  The articles highlight rising inflation and unemployment as key economic impacts...
+  Sources:
+  - https://example.com/news/article1
+  - https://example.com/news/article2
+  ```
+
+---
+
+## Future Improvements
+
+* [ ] Support more than 3 URLs per session
+* [ ] Add PDF and other document ingestion
+* [ ] Cache embeddings for faster loading
+* [ ] Enhance UI (e.g., better source visualization)
+
+---
+
+## For Recruiters / Developers
+
+### Recruiters
+
+* **Modern tech stack:** Streamlit, LangChain, FAISS, and Google Gemini.
+* **Problem solved:** Makes large-scale news comprehension easy via AI-driven retrieval and Q\&A.
+* **Scalable & interactive:** Clean interface, modular design suitable for extension.
+
+### Developers
+
+* **Modular design:** Clear separation of loader, splitting, embedding, indexing, and retrieval.
+* **Vector search foundation:** FAISS allows expanding to any document-based QA.
+* **Future-ready:** Easily extendable to support other formats, LLMs, or caching strategies.
 
 
-📂 Project Structure
-📦 news-research-tool
- ┣ 📜 app.py              # Main Streamlit app
- ┣ 📜 requirements.txt    # Python dependencies
- ┣ 📜 .env                # API key (not committed to repo)
- ┗ 📂 vector_indexx       # FAISS vector index (generated after processing)
 
-🔮 Example
 
-Input URLs:
-https://example.com/news/article1
-https://example.com/news/article2
 
-Question:
-"What are the main economic impacts mentioned in these articles?"
 
-Output:
-
-Answer:
-
-The articles highlight rising inflation and unemployment as key economic impacts...  
-
-Sources:
-https://example.com/news/article1  
-https://example.com/news/article2  
-
-🌟 Future Improvements
-
-Support for more than 3 URLs
-PDF and document support
-Caching embeddings for faster reloads
-Enhanced UI with better source visualization
